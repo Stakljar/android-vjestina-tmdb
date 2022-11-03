@@ -22,12 +22,10 @@ fun UserScoreProgressBar(
     progress: Float,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.size(40.dp).padding(2.dp)) {
+    Box(modifier = modifier) {
         Canvas(modifier = Modifier.size(40.dp)) {
             drawArc(
-                Color(red = 212,
-                    green = 255,
-                    blue = 212),
+                color = Color(color = 0xFFd4ffd4),
                 startAngle = (progress * 360) - 90,
                 sweepAngle = (1 - progress) * 360,
                 style = Stroke(
@@ -37,11 +35,7 @@ fun UserScoreProgressBar(
                 useCenter = false,
             )
             drawArc(
-                Color(
-                    red = 0,
-                    green = 255,
-                    blue = 0
-                ),
+                color = Color.Green,
                 startAngle = -90F,
                 sweepAngle = progress * 360,
                 style = Stroke(
@@ -53,17 +47,22 @@ fun UserScoreProgressBar(
         }
         Text(
             text = (progress * 10).toString(),
-            modifier = modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center),
             fontWeight = FontWeight.ExtraBold,
-            fontSize = 14.sp
+            fontSize = 12.sp
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun UserScoreProgressBarPreview() {
+private fun UserScoreProgressBarPreview() {
     MovieAppTheme {
-        UserScoreProgressBar(progress = 0.75F)
+        UserScoreProgressBar(
+            progress = 0.75F,
+            Modifier
+                .size(40.dp)
+                .padding(2.dp)
+        )
     }
 }

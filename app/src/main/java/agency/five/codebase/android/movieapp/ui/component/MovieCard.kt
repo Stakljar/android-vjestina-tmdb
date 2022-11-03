@@ -1,6 +1,7 @@
 package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,9 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,26 +28,27 @@ data class MovieCardViewState(
 @Composable
 fun MovieCard(
     movieCardViewState: MovieCardViewState,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var isFavorite by remember { mutableStateOf(movieCardViewState.isFavorite) }
     Card(
-        shape = RoundedCornerShape(percent = 10),
-        elevation = 10.dp,
-        modifier = modifier.size(130.dp, 200.dp)
+        modifier = modifier
     ) {
         Box {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(movieCardViewState.imageUrl)
-                    .build(),
+                model = movieCardViewState.imageUrl,
                 contentDescription = null,
-                modifier = modifier.clickable {  }
+                modifier = Modifier
+                    .clickable { onClick() }
                     .fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
             FavoriteButton(
-                isFavorite = movieCardViewState.isFavorite,
-                modifier.padding(start = 5.dp, top = 5.dp)
+                isFavorite = isFavorite,
+                onClick = { isFavorite = !isFavorite },
+                modifier = Modifier
+                    .padding(start = 5.dp, top = 5.dp)
                     .align(Alignment.TopStart)
             )
         }
@@ -54,13 +57,17 @@ fun MovieCard(
 
 @Preview(showBackground = true)
 @Composable
-fun MovieCardPreview(){
+private fun MovieCardPreview() {
     MovieAppTheme {
         MovieCard(
             movieCardViewState = MovieCardViewState(
                 imageUrl = "https://www.filmizlesene.pro/wp-content/uploads/2010/03/1159.jpg",
                 isFavorite = false
-            )
+            ),
+            onClick = { },
+            Modifier
+                .size(130.dp, 200.dp)
+                .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
         )
     }
 }

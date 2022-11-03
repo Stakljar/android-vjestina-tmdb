@@ -21,11 +21,11 @@ fun CrewItem(
     crewItemViewState: CrewItemViewState,
     modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(modifier = modifier) {
         Text(
             text = crewItemViewState.name,
             fontWeight = FontWeight.ExtraBold,
-            modifier = modifier
+            modifier = Modifier
                 .padding(bottom = 2.dp),
             fontSize = 12.sp
         )
@@ -38,7 +38,7 @@ fun CrewItem(
 
 @Preview(showBackground = true)
 @Composable
-fun CrewItemPreview(){
+private fun CrewItemPreview() {
     MovieAppTheme {
         CrewItem(
             crewItemViewState = CrewItemViewState(

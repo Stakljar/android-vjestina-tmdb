@@ -19,15 +19,15 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun FavoriteButton(
     isFavorite: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isFavoriteState by remember { mutableStateOf(isFavorite) }
     Image(
-        painter = painterResource(id = if (isFavoriteState) R.drawable.filled_heart else R.drawable.empty_heart),
+        painter = painterResource(id = if (isFavorite) R.drawable.filled_heart else R.drawable.empty_heart),
         contentDescription = null,
         modifier = modifier
             .clickable {
-                isFavoriteState = isFavoriteState.not()
+                onClick()
             }
             .size(30.dp)
             .background(Blue.copy(alpha = 0.6F), CircleShape)
@@ -38,8 +38,9 @@ fun FavoriteButton(
 
 @Preview(showBackground = true)
 @Composable
-fun FavoriteButtonPreview() {
+private fun FavoriteButtonPreview() {
+    var isFavorite by remember { mutableStateOf(false) }
     MovieAppTheme {
-        FavoriteButton(isFavorite = false)
+        FavoriteButton(isFavorite = isFavorite, onClick = { isFavorite = !isFavorite })
     }
 }

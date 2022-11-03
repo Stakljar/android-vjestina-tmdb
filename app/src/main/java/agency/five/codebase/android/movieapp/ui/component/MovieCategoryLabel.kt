@@ -1,12 +1,8 @@
 package agency.five.codebase.android.movieapp.ui.component
 
-import agency.five.codebase.android.movieapp.ui.theme.Blue
-import agency.five.codebase.android.movieapp.ui.theme.Gray300
-import agency.five.codebase.android.movieapp.ui.theme.Gray600
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.padding
@@ -16,7 +12,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,9 +20,10 @@ import androidx.compose.ui.unit.sp
 
 sealed class MovieCategoryLabelTextViewState
 
-class MovieCategoryLabelTextViewStateDirect(val text: String): MovieCategoryLabelTextViewState()
+class MovieCategoryLabelTextViewStateDirect(val text: String) : MovieCategoryLabelTextViewState()
 
-class MovieCategoryLabelTextViewStateReferenced(@StringRes val textRes: Int): MovieCategoryLabelTextViewState()
+class MovieCategoryLabelTextViewStateReferenced(@StringRes val textRes: Int) :
+    MovieCategoryLabelTextViewState()
 
 data class MovieCategoryLabelViewState(
     val itemId: Int,
@@ -38,25 +34,27 @@ data class MovieCategoryLabelViewState(
 @Composable
 fun MovieCategoryLabel(
     movieCategoryLabelViewState: MovieCategoryLabelViewState,
+    isSelected: Boolean,
+    onSelected: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isSelected by remember { mutableStateOf(movieCategoryLabelViewState.isSelected) }
-    Column(modifier = modifier.width(IntrinsicSize.Min)) {
+    Column(modifier = modifier
+        .width(IntrinsicSize.Min)
+        .clickable { onSelected() }
+    ) {
         Text(
-            text = when(movieCategoryLabelViewState.categoryText) {
+            text = when (movieCategoryLabelViewState.categoryText) {
                 is MovieCategoryLabelTextViewStateDirect -> movieCategoryLabelViewState.categoryText.text
                 is MovieCategoryLabelTextViewStateReferenced -> stringResource(id = movieCategoryLabelViewState.categoryText.textRes)
             },
             fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Normal,
-            color = if (isSelected) MaterialTheme.colors.onBackground else if (isSystemInDarkTheme()) Gray300 else Gray600,
             fontSize = 12.sp,
-            modifier = modifier.clickable { isSelected = true }
         )
-        if (isSelected){
+        if (isSelected) {
             Divider(
-                color = if (isSystemInDarkTheme()) Color.White else Blue,
-                thickness =  3.dp,
-                modifier = modifier.padding(top = 3.dp)
+                color = MaterialTheme.colors.onBackground,
+                thickness = 3.dp,
+                modifier = Modifier.padding(top = 3.dp)
             )
         }
     }
@@ -64,14 +62,18 @@ fun MovieCategoryLabel(
 
 @Preview(showBackground = true)
 @Composable
-fun MovieCategoryLabelPreview() {
+private fun MovieCategoryLabelPreview() {
+    val movieCategoryLabelViewState = MovieCategoryLabelViewState(
+        itemId = 0,
+        isSelected = false,
+        categoryText = MovieCategoryLabelTextViewStateDirect(text = "Movies")
+    )
+    var isSelected by remember { mutableStateOf(movieCategoryLabelViewState.isSelected) }
     MovieAppTheme {
         MovieCategoryLabel(
-            movieCategoryLabelViewState = MovieCategoryLabelViewState(
-                itemId = 0,
-                isSelected = false,
-                categoryText = MovieCategoryLabelTextViewStateDirect(text = "Movies")
-            )
+            movieCategoryLabelViewState = movieCategoryLabelViewState,
+            isSelected = isSelected,
+            onSelected = { isSelected = true }
         )
     }
 }
