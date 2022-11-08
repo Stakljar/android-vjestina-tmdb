@@ -7,6 +7,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 
 data class ActorCardViewState(
-    val imageUrl: String,
+    val imageUrl: String?,
     val name: String,
     val character: String,
 )
@@ -26,8 +27,6 @@ fun ActorCard(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        shape = RoundedCornerShape(10),
-        elevation = 10.dp,
         modifier = modifier
     ) {
         Column {
@@ -36,7 +35,7 @@ fun ActorCard(
                 contentDescription = "${actorCardViewState.name} profile image",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(130.dp),
+                    .height(150.dp),
                 contentScale = ContentScale.Crop
             )
             Text(
@@ -62,12 +61,13 @@ private fun ActorCardPreview() {
     MovieAppTheme {
         ActorCard(
             actorCardViewState = ActorCardViewState(
-                imageUrl = "https://assets-global.website-files.com/5f3e7f710351ee0491efb21b/6019d6b44b2ae" +
-                        "361ce81f1b6_Screen%20Shot%202021-02-02%20at%2014.48.11.png",
+                imageUrl = "https://www.themoviedb.org/t/p/w200/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg",
                 name = "Robert Downey Jr.",
                 character = "Tony Stark/Iron Man"
             ),
-            Modifier.width(130.dp)
+            Modifier
+                .width(130.dp)
+                .shadow(elevation = 10.dp, shape = RoundedCornerShape(percent = 10))
         )
     }
 }

@@ -2,9 +2,7 @@ package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,7 +21,7 @@ fun UserScoreProgressBar(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier) {
-        Canvas(modifier = Modifier.size(40.dp)) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
             drawArc(
                 color = Color(color = 0xFFd4ffd4),
                 startAngle = (progress * 360) - 90,
@@ -49,7 +47,8 @@ fun UserScoreProgressBar(
             text = (progress * 10).toString(),
             modifier = Modifier.align(Alignment.Center),
             fontWeight = FontWeight.ExtraBold,
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            color = Color.White
         )
     }
 }

@@ -23,7 +23,7 @@ fun FavoriteButton(
     modifier: Modifier = Modifier
 ) {
     Image(
-        painter = painterResource(id = if (isFavorite) R.drawable.filled_heart else R.drawable.empty_heart),
+        painter = painterResource(id = if (isFavorite) R.drawable.ic_filled_heart else R.drawable.ic_empty_heart),
         contentDescription = null,
         modifier = modifier
             .clickable {

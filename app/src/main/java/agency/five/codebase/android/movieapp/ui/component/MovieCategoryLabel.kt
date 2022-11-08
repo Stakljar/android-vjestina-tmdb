@@ -34,7 +34,6 @@ data class MovieCategoryLabelViewState(
 @Composable
 fun MovieCategoryLabel(
     movieCategoryLabelViewState: MovieCategoryLabelViewState,
-    isSelected: Boolean,
     onSelected: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -47,10 +46,10 @@ fun MovieCategoryLabel(
                 is MovieCategoryLabelTextViewStateDirect -> movieCategoryLabelViewState.categoryText.text
                 is MovieCategoryLabelTextViewStateReferenced -> stringResource(id = movieCategoryLabelViewState.categoryText.textRes)
             },
-            fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Normal,
-            fontSize = 12.sp,
+            fontWeight = if (movieCategoryLabelViewState.isSelected) FontWeight.ExtraBold else FontWeight.Normal,
+            fontSize = 14.sp,
         )
-        if (isSelected) {
+        if (movieCategoryLabelViewState.isSelected) {
             Divider(
                 color = MaterialTheme.colors.onBackground,
                 thickness = 3.dp,
@@ -63,17 +62,21 @@ fun MovieCategoryLabel(
 @Preview(showBackground = true)
 @Composable
 private fun MovieCategoryLabelPreview() {
-    val movieCategoryLabelViewState = MovieCategoryLabelViewState(
-        itemId = 0,
-        isSelected = false,
-        categoryText = MovieCategoryLabelTextViewStateDirect(text = "Movies")
-    )
-    var isSelected by remember { mutableStateOf(movieCategoryLabelViewState.isSelected) }
+    var movieCategoryLabelViewState by remember {
+        mutableStateOf(
+            MovieCategoryLabelViewState(
+                itemId = 0,
+                isSelected = false,
+                categoryText = MovieCategoryLabelTextViewStateDirect(text = "Movies")
+            )
+        )
+    }
     MovieAppTheme {
         MovieCategoryLabel(
             movieCategoryLabelViewState = movieCategoryLabelViewState,
-            isSelected = isSelected,
-            onSelected = { isSelected = true }
+            onSelected = {
+                movieCategoryLabelViewState = movieCategoryLabelViewState.copy(isSelected = true)
+            }
         )
     }
 }

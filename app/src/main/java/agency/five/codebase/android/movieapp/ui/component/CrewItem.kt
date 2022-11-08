@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 
 data class CrewItemViewState(
     val name: String,
-    val profession: String
+    val job: String
 )
 
 @Composable
@@ -30,7 +30,7 @@ fun CrewItem(
             fontSize = 12.sp
         )
         Text(
-            text = crewItemViewState.profession,
+            text = crewItemViewState.job,
             fontSize = 12.sp
         )
     }
@@ -43,7 +43,7 @@ private fun CrewItemPreview() {
         CrewItem(
             crewItemViewState = CrewItemViewState(
                 name = "John Favreau",
-                profession = "Director"
+                job = "Director"
             )
         )
     }
