@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,17 +23,17 @@ fun FavoriteButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Image(
+    Image (
         painter = painterResource(id = if (isFavorite) R.drawable.ic_filled_heart else R.drawable.ic_empty_heart),
         contentDescription = null,
         modifier = modifier
             .clickable {
                 onClick()
             }
-            .size(30.dp)
+            .size(dimensionResource(id = R.dimen.favorite_button_size))
             .background(Blue.copy(alpha = 0.6F), CircleShape)
             .clip(CircleShape)
-            .padding(8.dp)
+            .padding(dimensionResource(id = R.dimen.favorite_icon_spacing))
     )
 }
 

@@ -1,5 +1,6 @@
 package agency.five.codebase.android.movieapp.ui.component
 
+import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -12,6 +13,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,13 +49,13 @@ fun MovieCategoryLabel(
                 is MovieCategoryLabelTextViewStateReferenced -> stringResource(id = movieCategoryLabelViewState.categoryText.textRes)
             },
             fontWeight = if (movieCategoryLabelViewState.isSelected) FontWeight.ExtraBold else FontWeight.Normal,
-            fontSize = 14.sp,
+            style = MaterialTheme.typography.subtitle1,
         )
         if (movieCategoryLabelViewState.isSelected) {
             Divider(
                 color = MaterialTheme.colors.onBackground,
-                thickness = 3.dp,
-                modifier = Modifier.padding(top = 3.dp)
+                thickness = dimensionResource(id = R.dimen.divider_thickness),
+                modifier = Modifier.padding(top = dimensionResource(id = R.dimen.very_small_spacing))
             )
         }
     }

@@ -1,5 +1,6 @@
 package agency.five.codebase.android.movieapp.ui.component
 
+import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -45,7 +47,10 @@ fun MovieCard(
                 isFavorite = movieCardViewState.isFavorite,
                 onClick = { onFavoriteClick() },
                 modifier = Modifier
-                    .padding(start = 5.dp, top = 5.dp)
+                    .padding(
+                        start = dimensionResource(id = R.dimen.small_spacing),
+                        top = dimensionResource(id = R.dimen.small_spacing)
+                    )
                     .align(Alignment.TopStart)
             )
         }
