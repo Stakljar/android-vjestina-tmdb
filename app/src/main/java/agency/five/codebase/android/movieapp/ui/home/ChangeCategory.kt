@@ -5,8 +5,7 @@ fun changeCategory(
     itemId: Int
 ): HomeMovieCategoryViewState {
     val movieCategories = homeMovieCategoryViewState.movieCategories.map {
-        if (itemId == it.itemId) it.copy(isSelected = true) else if (it.isSelected)
-            it.copy(isSelected = false) else it.copy()
+        it.copy(isSelected = itemId == it.itemId)
     }
     return homeMovieCategoryViewState.copy(movieCategories = movieCategories)
 }

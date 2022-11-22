@@ -2,11 +2,8 @@ package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.mock.MoviesMock
-import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsScreen
 import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsViewState
-import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapper
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapperImpl
-import agency.five.codebase.android.movieapp.ui.moviedetails.movieDetailsViewState
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -18,10 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 
 @Composable
@@ -65,7 +60,7 @@ fun MovieLayout(
             )
             FavoriteButton(
                 isFavorite = movieDetailsViewState.isFavorite,
-                onClick = { onFavoriteButtonClick() },
+                onClick = onFavoriteButtonClick,
                 modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.large_spacing))
             )
         }

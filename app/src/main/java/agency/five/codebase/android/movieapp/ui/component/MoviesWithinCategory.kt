@@ -25,8 +25,8 @@ fun MoviesWithinCategory(
     headingName: String,
     categoryViewState: HomeMovieCategoryViewState,
     onNavigateToMovieDetails: (Int) -> Unit,
-    onCategoryClick: (MovieCategoryLabelViewState) -> Unit,
-    onFavoriteClick: (MovieCategoryLabelViewState, HomeMovieViewState) -> Unit,
+    onCategoryClick: (Int) -> Unit,
+    onFavoriteClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -44,7 +44,7 @@ fun MoviesWithinCategory(
             items(items = categoryViewState.movieCategories) { category ->
                 MovieCategoryLabel(
                     movieCategoryLabelViewState = category,
-                    onSelected = { onCategoryClick(category) },
+                    onSelected = { onCategoryClick(category.itemId) },
                 )
             }
         }
@@ -57,8 +57,7 @@ fun MoviesWithinCategory(
                     onClick = { onNavigateToMovieDetails(movie.id) },
                     onFavoriteClick = {
                         onFavoriteClick(
-                            categoryViewState.movieCategories.first { it.isSelected },
-                            movie
+                            movie.id
                         )
                     },
                     modifier = Modifier
@@ -95,12 +94,12 @@ fun MovieWithinCategoryPreview() {
             headingName = "What's popular",
             categoryViewState = popularCategoryViewState,
             onNavigateToMovieDetails = { },
-            onCategoryClick = { category ->
-                popularCategoryViewState = changeCategory(popularCategoryViewState, category.itemId)
+            onCategoryClick = { categoryId ->
+                popularCategoryViewState = changeCategory(popularCategoryViewState, categoryId)
             },
-            onFavoriteClick = { _, movie ->
+            onFavoriteClick = { movieId ->
                 popularCategoryViewState =
-                    changeMovieFavoriteStatus(popularCategoryViewState, movie)
+                    changeMovieFavoriteStatus(popularCategoryViewState, movieId)
             },
             modifier = Modifier.padding(start = 15.dp, top = 15.dp, bottom = 15.dp)
         )

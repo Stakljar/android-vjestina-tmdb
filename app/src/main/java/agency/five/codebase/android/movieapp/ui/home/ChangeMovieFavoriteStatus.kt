@@ -2,12 +2,15 @@ package agency.five.codebase.android.movieapp.ui.home
 
 fun changeMovieFavoriteStatus(
     homeMovieCategoryViewState: HomeMovieCategoryViewState,
-    movie: HomeMovieViewState
+    movieId: Int
 ): HomeMovieCategoryViewState {
+    val selectedMovie = homeMovieCategoryViewState.movies.first { movie -> movie.id == movieId }
     val movieCardViewState =
-        movie.movieCardViewState.copy(isFavorite = !movie.movieCardViewState.isFavorite)
+        selectedMovie.movieCardViewState.copy(
+            isFavorite = !selectedMovie.movieCardViewState.isFavorite
+        )
     val movies = homeMovieCategoryViewState.movies.map {
-        if (movie == it) movie.copy(movieCardViewState = movieCardViewState) else it
+        if (movieId == it.id) it.copy(movieCardViewState = movieCardViewState) else it
     }
     return homeMovieCategoryViewState.copy(movies = movies)
 }

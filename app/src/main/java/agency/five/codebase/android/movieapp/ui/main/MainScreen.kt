@@ -13,8 +13,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.navigation.compose.rememberNavController
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -26,24 +28,24 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    var showBottomBar by remember {
-        mutableStateOf(false)
+    val showBottomBar by remember {
+        derivedStateOf { navBackStackEntry?.destination?.route != "MovieDetails/{movieId}"}
     }
-    var showBackIcon by remember {
-        mutableStateOf(!showBottomBar)
-    }
+    val showBackIcon = !showBottomBar
     Scaffold(
         topBar = {
             TopBar(
                 navigationIcon = {
                     if (showBackIcon) BackIcon(
-                        onBackClick = navController::popBackStack, modifier = Modifier.padding(
+                        onBackClick = navController::popBackStack,
+                        modifier = Modifier.padding(
                             start = dimensionResource(
                                 id = R.dimen.medium_spacing
                             )
@@ -80,8 +82,6 @@ fun MainScreen() {
                 modifier = Modifier.padding(padding)
             ) {
                 composable(NavigationItem.HomeDestination.route) {
-                    showBottomBar = true
-                    showBackIcon = !showBottomBar
                     HomeRoute(
                         onNavigateToMovieDetails = { id ->
                             navController.navigate(
@@ -91,8 +91,6 @@ fun MainScreen() {
                     )
                 }
                 composable(NavigationItem.FavoritesDestination.route) {
-                    showBottomBar = true
-                    showBackIcon = !showBottomBar
                     FavoritesRoute(
                         onNavigateToMovieDetails = { id ->
                             navController.navigate(
@@ -106,8 +104,6 @@ fun MainScreen() {
                     route = MovieDetailsDestination.route,
                     arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType }),
                 ) {
-                    showBottomBar = false
-                    showBackIcon = !showBottomBar
                     MovieDetailsRoute()
                 }
             }
@@ -117,7 +113,7 @@ fun MainScreen() {
 
 @Composable
 private fun TopBar(
-    navigationIcon: @Composable (() -> Unit)? = null,
+    navigationIcon: @Composable (() -> Unit)? = { },
 ) {
     Box(
         modifier = Modifier
@@ -165,13 +161,20 @@ private fun BottomNavigationBar(
             destinations.forEach { destination ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     if (currentDestination != null) {
-                        Image(painter = painterResource(id = if (currentDestination.route == destination.route) destination.selectedIconId else destination.unselectedIconId),
+                        Image(
+                            painter = painterResource(
+                                id = if (currentDestination.route == destination.route)
+                                    destination.selectedIconId
+                                else
+                                    destination.unselectedIconId
+                            ),
                             contentDescription = null,
                             modifier = Modifier
                                 .size(dimensionResource(id = R.dimen.back_icon_size))
                                 .clickable {
                                     onNavigateToDestination(destination)
-                                })
+                                }
+                        )
                     }
                     Text(
                         text = stringResource(id = destination.labelId),

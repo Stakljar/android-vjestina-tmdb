@@ -30,15 +30,15 @@ fun FavoritesRoute(
     onNavigateToMovieDetails: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var favoritesViewState by remember { mutableStateOf(favoritesViewState) }
+    var _favoritesViewState by remember { mutableStateOf(favoritesViewState) }
 
     FavoritesScreen(
-        favoritesViewState,
-        onNavigateToMovieDetails,
-        { favoritesMovieViewState ->
-            favoritesViewState = onFavoriteButtonClick(favoritesViewState, favoritesMovieViewState)
+        favoritesViewState = _favoritesViewState,
+        onNavigateToMovieDetails = onNavigateToMovieDetails,
+        onFavoriteButtonClick = { favoritesMovieId ->
+            _favoritesViewState = onFavoriteButtonClick(_favoritesViewState, favoritesMovieId)
         },
-        modifier
+        modifier = modifier
     )
 }
 
@@ -46,7 +46,7 @@ fun FavoritesRoute(
 fun FavoritesScreen(
     favoritesViewState: FavoritesViewState,
     onNavigateToMovieDetails: (Int) -> Unit,
-    onFavoriteButtonClick: (FavoritesMovieViewState) -> Unit,
+    onFavoriteButtonClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -57,22 +57,21 @@ fun FavoritesScreen(
     ) {
         item(span = { GridItemSpan(maxLineSpan) }) {
             Heading(
-                stringResource(id = R.string.favorites), Modifier.padding(
-                    start = dimensionResource(
-                        id = R.dimen.very_large_spacing
-                    ), top = dimensionResource(
-                        id = R.dimen.large_spacing
-                    )
+                stringResource(id = R.string.favorites),
+                Modifier.padding(
+                    start = dimensionResource(id = R.dimen.very_large_spacing),
+                    top = dimensionResource(id = R.dimen.large_spacing)
                 )
             )
         }
         items(
             items = favoritesViewState.favoritesMovieViewStates,
-            key = { favoritesMovieViewState -> favoritesMovieViewState.id }) { favoritesMovieViewState ->
+            key = { favoritesMovieViewState -> favoritesMovieViewState.id }
+        ) { favoritesMovieViewState ->
             MovieCard(
                 movieCardViewState = favoritesMovieViewState.movieCardViewState,
                 onClick = { onNavigateToMovieDetails(favoritesMovieViewState.id) },
-                onFavoriteClick = { onFavoriteButtonClick(favoritesMovieViewState) },
+                onFavoriteClick = { onFavoriteButtonClick(favoritesMovieViewState.id) },
                 Modifier
                     .height(dimensionResource(id = R.dimen.movie_card_favorites_height))
                     .shadow(elevation = 0.dp, shape = RoundedCornerShape(percent = 10))
@@ -84,16 +83,16 @@ fun FavoritesScreen(
 @Preview
 @Composable
 private fun FavoritesScreenPreview() {
-    var favoritesViewState by remember { mutableStateOf(favoritesViewState) }
+    var _favoritesViewState by remember { mutableStateOf(favoritesViewState) }
     MovieAppTheme {
         FavoritesScreen(
-            favoritesViewState,
-            { },
-            { favoritesMovieViewState ->
-                favoritesViewState =
-                    onFavoriteButtonClick(favoritesViewState, favoritesMovieViewState)
+            favoritesViewState = _favoritesViewState,
+            onNavigateToMovieDetails = { },
+            onFavoriteButtonClick = { favoritesMovieId ->
+                _favoritesViewState =
+                    onFavoriteButtonClick(_favoritesViewState, favoritesMovieId)
             },
-            Modifier.padding(10.dp)
+            modifier = Modifier.padding(10.dp)
         )
     }
 }

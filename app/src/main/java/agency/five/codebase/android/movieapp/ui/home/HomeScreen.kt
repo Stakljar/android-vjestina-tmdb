@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 
 private val homeScreenMapper: HomeScreenMapper = HomeScreenMapperImpl()
 
@@ -47,50 +46,46 @@ val upcomingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
 
 @Composable
 fun HomeRoute(
-    onNavigateToMovieDetails: (Int) -> Unit
+    onNavigateToMovieDetails: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    var popularCategoryViewState by remember { mutableStateOf(popularCategoryViewState) }
-    var nowPlayingCategoryViewState by remember { mutableStateOf(nowPlayingCategoryViewState) }
-    var upcomingCategoryViewState by remember { mutableStateOf(upcomingCategoryViewState) }
+    var _popularCategoryViewState by remember { mutableStateOf(popularCategoryViewState) }
+    var _nowPlayingCategoryViewState by remember { mutableStateOf(nowPlayingCategoryViewState) }
+    var _upcomingCategoryViewState by remember { mutableStateOf(upcomingCategoryViewState) }
     HomeScreen(
-        popularCategoryViewState,
-        nowPlayingCategoryViewState,
-        upcomingCategoryViewState,
-        onNavigateToMovieDetails,
-        onCategoryClick = { category ->
-            when (category.itemId) {
+        popularCategoryViewState = _popularCategoryViewState,
+        nowPlayingCategoryViewState = _nowPlayingCategoryViewState,
+        upcomingCategoryViewState = _upcomingCategoryViewState,
+        onNavigateToMovieDetails = onNavigateToMovieDetails,
+        onCategoryClick = { categoryId ->
+            when (categoryId) {
 
                 in 0..3 -> {
-                    popularCategoryViewState =
-                        changeCategory(popularCategoryViewState, category.itemId)
+                    _popularCategoryViewState =
+                        changeCategory(_popularCategoryViewState, categoryId)
                 }
                 in 4..5 -> {
-                    nowPlayingCategoryViewState =
-                        changeCategory(nowPlayingCategoryViewState, category.itemId)
+                    _nowPlayingCategoryViewState =
+                        changeCategory(_nowPlayingCategoryViewState, categoryId)
                 }
                 else -> {
-                    upcomingCategoryViewState =
-                        changeCategory(upcomingCategoryViewState, category.itemId)
+                    _upcomingCategoryViewState =
+                        changeCategory(_upcomingCategoryViewState, categoryId)
                 }
             }
         },
-        onFavoriteClick = { category, movie ->
-            when (category.itemId) {
-
-                in 0..3 -> {
-                    popularCategoryViewState =
-                        changeMovieFavoriteStatus(popularCategoryViewState, movie)
-                }
-                in 4..5 -> {
-                    nowPlayingCategoryViewState =
-                        changeMovieFavoriteStatus(nowPlayingCategoryViewState, movie)
-                }
-                else -> {
-                    upcomingCategoryViewState =
-                        changeMovieFavoriteStatus(upcomingCategoryViewState, movie)
-                }
-            }
-        }
+        onFavoriteClick = { movieId ->
+            if(_popularCategoryViewState.movies.any { it.id == movieId })
+                _popularCategoryViewState =
+                    changeMovieFavoriteStatus(_popularCategoryViewState, movieId)
+            if(_nowPlayingCategoryViewState.movies.any { it.id == movieId })
+                _nowPlayingCategoryViewState =
+                    changeMovieFavoriteStatus(_nowPlayingCategoryViewState, movieId)
+            if(_upcomingCategoryViewState.movies.any { it.id == movieId })
+                _upcomingCategoryViewState =
+                    changeMovieFavoriteStatus(_upcomingCategoryViewState, movieId)
+        },
+        modifier
     )
 }
 
@@ -100,8 +95,8 @@ fun HomeScreen(
     nowPlayingCategoryViewState: HomeMovieCategoryViewState,
     upcomingCategoryViewState: HomeMovieCategoryViewState,
     onNavigateToMovieDetails: (Int) -> Unit,
-    onCategoryClick: (MovieCategoryLabelViewState) -> Unit,
-    onFavoriteClick: (MovieCategoryLabelViewState, HomeMovieViewState) -> Unit,
+    onCategoryClick: (Int) -> Unit,
+    onFavoriteClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
@@ -153,49 +148,43 @@ fun HomeScreen(
 @Preview
 @Composable
 private fun MovieDetailsScreenPreview() {
-    var popularCategoryViewState by remember { mutableStateOf(popularCategoryViewState) }
-    var nowPlayingCategoryViewState by remember { mutableStateOf(nowPlayingCategoryViewState) }
-    var upcomingCategoryViewState by remember { mutableStateOf(upcomingCategoryViewState) }
+    var _popularCategoryViewState by remember { mutableStateOf(popularCategoryViewState) }
+    var _nowPlayingCategoryViewState by remember { mutableStateOf(nowPlayingCategoryViewState) }
+    var _upcomingCategoryViewState by remember { mutableStateOf(upcomingCategoryViewState) }
     MovieAppTheme {
         HomeScreen(
-            popularCategoryViewState,
-            nowPlayingCategoryViewState,
-            upcomingCategoryViewState,
-            { },
-            onCategoryClick = { category ->
-                when (category.itemId) {
+            popularCategoryViewState = _popularCategoryViewState,
+            nowPlayingCategoryViewState = _nowPlayingCategoryViewState,
+            upcomingCategoryViewState = _upcomingCategoryViewState,
+            onNavigateToMovieDetails = { },
+            onCategoryClick = { categoryId ->
+                when (categoryId) {
 
                     in 0..3 -> {
-                        popularCategoryViewState =
-                            changeCategory(popularCategoryViewState, category.itemId)
+                        _popularCategoryViewState =
+                            changeCategory(_popularCategoryViewState, categoryId)
                     }
                     in 4..5 -> {
-                        nowPlayingCategoryViewState =
-                            changeCategory(nowPlayingCategoryViewState, category.itemId)
+                        _nowPlayingCategoryViewState =
+                            changeCategory(_nowPlayingCategoryViewState, categoryId)
                     }
                     else -> {
-                        upcomingCategoryViewState =
-                            changeCategory(upcomingCategoryViewState, category.itemId)
+                        _upcomingCategoryViewState =
+                            changeCategory(_upcomingCategoryViewState, categoryId)
                     }
                 }
             },
-            onFavoriteClick = { category, movie ->
-                when (category.itemId) {
-
-                    in 0..3 -> {
-                        popularCategoryViewState =
-                            changeMovieFavoriteStatus(popularCategoryViewState, movie)
-                    }
-                    in 4..5 -> {
-                        nowPlayingCategoryViewState =
-                            changeMovieFavoriteStatus(nowPlayingCategoryViewState, movie)
-                    }
-                    else -> {
-                        upcomingCategoryViewState =
-                            changeMovieFavoriteStatus(upcomingCategoryViewState, movie)
-                    }
-                }
-            }
+            onFavoriteClick = { movieId ->
+                if(_popularCategoryViewState.movies.any { it.id == movieId })
+                    _popularCategoryViewState =
+                        changeMovieFavoriteStatus(_popularCategoryViewState, movieId)
+                if(_nowPlayingCategoryViewState.movies.any { it.id == movieId })
+                    _nowPlayingCategoryViewState =
+                        changeMovieFavoriteStatus(_nowPlayingCategoryViewState, movieId)
+                if(_upcomingCategoryViewState.movies.any { it.id == movieId })
+                    _upcomingCategoryViewState =
+                        changeMovieFavoriteStatus(_upcomingCategoryViewState, movieId)
+            },
         )
     }
 }
