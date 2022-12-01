@@ -46,14 +46,16 @@ fun MainScreen() {
         topBar = {
             TopBar(
                 navigationIcon = {
-                    if (showBackIcon) BackIcon(
-                        onBackClick = navController::popBackStack,
-                        modifier = Modifier.padding(
-                            start = dimensionResource(
-                                id = R.dimen.medium_spacing
+                    if (showBackIcon) {
+                        BackIcon(
+                            onBackClick = navController::popBackStack,
+                            modifier = Modifier.padding(
+                                start = dimensionResource(
+                                    id = R.dimen.medium_spacing
+                                )
                             )
                         )
-                    )
+                    }
                 }
             )
         },
@@ -116,7 +118,7 @@ fun MainScreen() {
 
 @Composable
 private fun TopBar(
-    navigationIcon: @Composable (() -> Unit)? = { },
+    navigationIcon: @Composable (() -> Unit) = { },
 ) {
     Box(
         modifier = Modifier
