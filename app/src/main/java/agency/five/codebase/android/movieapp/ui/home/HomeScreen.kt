@@ -1,91 +1,41 @@
 package agency.five.codebase.android.movieapp.ui.home
 
 import agency.five.codebase.android.movieapp.R
-import agency.five.codebase.android.movieapp.mock.MoviesMock
-import agency.five.codebase.android.movieapp.model.MovieCategory
-import agency.five.codebase.android.movieapp.ui.component.*
-import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapper
+import agency.five.codebase.android.movieapp.data.repository.FakeMovieRepository
+import agency.five.codebase.android.movieapp.ui.component.MoviesWithinCategory
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-
-private val homeScreenMapper: HomeScreenMapper = HomeScreenMapperImpl()
-
-val popularCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
-    listOf(
-        MovieCategory.POPULAR_STREAMING,
-        MovieCategory.POPULAR_ONTV,
-        MovieCategory.POPULAR_FORRENT,
-        MovieCategory.POPULAR_INTHREATRES
-    ),
-    MovieCategory.POPULAR_STREAMING,
-    MoviesMock.getMoviesList()
-)
-val nowPlayingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
-    listOf(
-        MovieCategory.NOWPLAYING_MOVIES,
-        MovieCategory.NOWPLAYING_TV,
-    ),
-    MovieCategory.NOWPLAYING_MOVIES,
-    MoviesMock.getMoviesList()
-)
-val upcomingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
-    listOf(
-        MovieCategory.UPCOMING_TODAY,
-        MovieCategory.UPCOMING_THISWEEK,
-    ),
-    MovieCategory.UPCOMING_TODAY,
-    MoviesMock.getMoviesList()
-)
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun HomeRoute(
+    viewModel: HomeViewModel,
     onNavigateToMovieDetails: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var _popularCategoryViewState by remember { mutableStateOf(popularCategoryViewState) }
-    var _nowPlayingCategoryViewState by remember { mutableStateOf(nowPlayingCategoryViewState) }
-    var _upcomingCategoryViewState by remember { mutableStateOf(upcomingCategoryViewState) }
-    HomeScreen(
-        popularCategoryViewState = _popularCategoryViewState,
-        nowPlayingCategoryViewState = _nowPlayingCategoryViewState,
-        upcomingCategoryViewState = _upcomingCategoryViewState,
-        onNavigateToMovieDetails = onNavigateToMovieDetails,
-        onCategoryClick = { categoryId ->
-            when (categoryId) {
+    val popularCategoryViewState by viewModel.popularMoviesViewState.collectAsState()
+    val nowPlayingCategoryViewState by viewModel.nowPlayingMoviesViewState.collectAsState()
+    val upcomingCategoryViewState by viewModel.upcomingMoviesViewState.collectAsState()
 
-                in 0..3 -> {
-                    _popularCategoryViewState =
-                        changeCategory(_popularCategoryViewState, categoryId)
-                }
-                in 4..5 -> {
-                    _nowPlayingCategoryViewState =
-                        changeCategory(_nowPlayingCategoryViewState, categoryId)
-                }
-                else -> {
-                    _upcomingCategoryViewState =
-                        changeCategory(_upcomingCategoryViewState, categoryId)
-                }
-            }
-        },
-        onFavoriteClick = { movieId ->
-            if(_popularCategoryViewState.movies.any { it.id == movieId })
-                _popularCategoryViewState =
-                    changeMovieFavoriteStatus(_popularCategoryViewState, movieId)
-            if(_nowPlayingCategoryViewState.movies.any { it.id == movieId })
-                _nowPlayingCategoryViewState =
-                    changeMovieFavoriteStatus(_nowPlayingCategoryViewState, movieId)
-            if(_upcomingCategoryViewState.movies.any { it.id == movieId })
-                _upcomingCategoryViewState =
-                    changeMovieFavoriteStatus(_upcomingCategoryViewState, movieId)
-        },
-        modifier
+    HomeScreen(
+        popularCategoryViewState = popularCategoryViewState,
+        nowPlayingCategoryViewState = nowPlayingCategoryViewState,
+        upcomingCategoryViewState = upcomingCategoryViewState,
+        onNavigateToMovieDetails = onNavigateToMovieDetails,
+        onCategoryClick = viewModel::changeCategory,
+        onFavoriteClick = viewModel::toggleFavorite,
+        modifier = modifier
     )
 }
 
@@ -145,46 +95,33 @@ fun HomeScreen(
     }
 }
 
+class HomeViewModelProvider : PreviewParameterProvider<HomeViewModel> {
+    override val values: Sequence<HomeViewModel>
+        get() = sequenceOf(
+            HomeViewModel(
+                movieRepository = FakeMovieRepository(Dispatchers.Default),
+                homeScreenMapper = HomeScreenMapperImpl()
+            )
+        )
+}
+
 @Preview
 @Composable
-private fun MovieDetailsScreenPreview() {
-    var _popularCategoryViewState by remember { mutableStateOf(popularCategoryViewState) }
-    var _nowPlayingCategoryViewState by remember { mutableStateOf(nowPlayingCategoryViewState) }
-    var _upcomingCategoryViewState by remember { mutableStateOf(upcomingCategoryViewState) }
+private fun MovieDetailsScreenPreview(
+    @PreviewParameter(HomeViewModelProvider::class) viewModel: HomeViewModel
+) {
+    val popularCategoryViewState by viewModel.popularMoviesViewState.collectAsState()
+    val nowPlayingCategoryViewState by viewModel.nowPlayingMoviesViewState.collectAsState()
+    val upcomingCategoryViewState by viewModel.upcomingMoviesViewState.collectAsState()
+
     MovieAppTheme {
         HomeScreen(
-            popularCategoryViewState = _popularCategoryViewState,
-            nowPlayingCategoryViewState = _nowPlayingCategoryViewState,
-            upcomingCategoryViewState = _upcomingCategoryViewState,
+            popularCategoryViewState = popularCategoryViewState,
+            nowPlayingCategoryViewState = nowPlayingCategoryViewState,
+            upcomingCategoryViewState = upcomingCategoryViewState,
             onNavigateToMovieDetails = { },
-            onCategoryClick = { categoryId ->
-                when (categoryId) {
-
-                    in 0..3 -> {
-                        _popularCategoryViewState =
-                            changeCategory(_popularCategoryViewState, categoryId)
-                    }
-                    in 4..5 -> {
-                        _nowPlayingCategoryViewState =
-                            changeCategory(_nowPlayingCategoryViewState, categoryId)
-                    }
-                    else -> {
-                        _upcomingCategoryViewState =
-                            changeCategory(_upcomingCategoryViewState, categoryId)
-                    }
-                }
-            },
-            onFavoriteClick = { movieId ->
-                if(_popularCategoryViewState.movies.any { it.id == movieId })
-                    _popularCategoryViewState =
-                        changeMovieFavoriteStatus(_popularCategoryViewState, movieId)
-                if(_nowPlayingCategoryViewState.movies.any { it.id == movieId })
-                    _nowPlayingCategoryViewState =
-                        changeMovieFavoriteStatus(_nowPlayingCategoryViewState, movieId)
-                if(_upcomingCategoryViewState.movies.any { it.id == movieId })
-                    _upcomingCategoryViewState =
-                        changeMovieFavoriteStatus(_upcomingCategoryViewState, movieId)
-            },
+            onCategoryClick = viewModel::changeCategory,
+            onFavoriteClick = viewModel::toggleFavorite
         )
     }
 }
