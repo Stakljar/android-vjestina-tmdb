@@ -23,7 +23,7 @@ fun UserScoreProgressBar(
     Box(modifier = modifier) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawArc(
-                color = Color(color = 0xFFd4ffd4),
+                color = Color(color = 0xFFd4ffd4).copy(alpha = 0.3F),
                 startAngle = (progress * 360) - 90,
                 sweepAngle = (1 - progress) * 360,
                 style = Stroke(
