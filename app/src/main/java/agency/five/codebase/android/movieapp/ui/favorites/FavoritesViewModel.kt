@@ -11,10 +11,9 @@ class FavoritesViewModel(
     private val movieRepository: MovieRepository,
     favoritesMapper: FavoritesMapper,
 ) : ViewModel() {
-    private val _favoritesViewState = MutableStateFlow(FavoritesViewState(emptyList()))
     val favoritesViewState: StateFlow<FavoritesViewState> = movieRepository.favoriteMovies()
         .map { movies -> favoritesMapper.toFavoritesViewState(movies) }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, _favoritesViewState.value)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, FavoritesViewState(emptyList()))
 
     fun toggleFavorite(movieId: Int) {
         viewModelScope.launch {

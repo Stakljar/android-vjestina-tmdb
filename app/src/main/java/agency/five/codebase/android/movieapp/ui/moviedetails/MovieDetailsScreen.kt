@@ -1,12 +1,10 @@
 package agency.five.codebase.android.movieapp.ui.moviedetails
 
 import agency.five.codebase.android.movieapp.R
-import agency.five.codebase.android.movieapp.data.repository.FakeMovieRepository
 import agency.five.codebase.android.movieapp.ui.component.CastLayout
 import agency.five.codebase.android.movieapp.ui.component.CrewLayout
 import agency.five.codebase.android.movieapp.ui.component.Heading
 import agency.five.codebase.android.movieapp.ui.component.MovieLayout
-import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -22,9 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import kotlinx.coroutines.Dispatchers
+import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MovieDetailsRoute(
@@ -99,22 +96,10 @@ fun MovieDetailsScreen(
     }
 }
 
-class MovieDetailsViewModelProvider : PreviewParameterProvider<MovieDetailsViewModel> {
-    override val values: Sequence<MovieDetailsViewModel>
-        get() = sequenceOf(
-            MovieDetailsViewModel(
-                movieRepository = FakeMovieRepository(Dispatchers.Default),
-                movieDetailsMapper = MovieDetailsMapperImpl(),
-                movieId = 1
-            )
-        )
-}
-
 @Preview
 @Composable
-private fun MovieDetailsScreenPreview(
-    @PreviewParameter(MovieDetailsViewModelProvider::class) viewModel: MovieDetailsViewModel
-) {
+private fun MovieDetailsScreenPreview() {
+    val viewModel: MovieDetailsViewModel by getViewModel{ parametersOf(1) }
     val movieDetailsViewState: MovieDetailsViewState by viewModel.movieDetailsViewState.collectAsState()
 
     MovieAppTheme {

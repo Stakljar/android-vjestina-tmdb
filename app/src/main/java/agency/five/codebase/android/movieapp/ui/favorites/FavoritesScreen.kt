@@ -1,10 +1,8 @@
 package agency.five.codebase.android.movieapp.ui.favorites
 
 import agency.five.codebase.android.movieapp.R
-import agency.five.codebase.android.movieapp.data.repository.FakeMovieRepository
 import agency.five.codebase.android.movieapp.ui.component.Heading
 import agency.five.codebase.android.movieapp.ui.component.MovieCard
-import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.height
@@ -22,10 +20,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.Dispatchers
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun FavoritesRoute(
@@ -81,21 +77,10 @@ fun FavoritesScreen(
     }
 }
 
-class FavoritesViewModelProvider : PreviewParameterProvider<FavoritesViewModel> {
-    override val values: Sequence<FavoritesViewModel>
-        get() = sequenceOf(
-            FavoritesViewModel(
-                movieRepository = FakeMovieRepository(Dispatchers.Default),
-                favoritesMapper = FavoritesMapperImpl()
-            )
-        )
-}
-
 @Preview
 @Composable
-private fun FavoritesScreenPreview(
-    @PreviewParameter(FavoritesViewModelProvider::class) viewModel: FavoritesViewModel
-) {
+private fun FavoritesScreenPreview() {
+    val viewModel: FavoritesViewModel by getViewModel()
     val favoritesViewState: FavoritesViewState by viewModel.favoritesViewState.collectAsState()
 
     MovieAppTheme {

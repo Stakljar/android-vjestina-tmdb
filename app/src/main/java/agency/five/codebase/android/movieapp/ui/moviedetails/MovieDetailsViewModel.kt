@@ -13,10 +13,9 @@ class MovieDetailsViewModel(
     movieDetailsMapper: MovieDetailsMapper,
     movieId: Int
 ) : ViewModel() {
-    private val _movieDetailsViewState = MutableStateFlow(movieDetailsMapper.toMovieDetailsViewState(MoviesMock.getMovieDetails(movieId)))
     val movieDetailsViewState: StateFlow<MovieDetailsViewState> = movieRepository.movieDetails(movieId)
         .map { movies -> movieDetailsMapper.toMovieDetailsViewState(movies) }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, _movieDetailsViewState.value)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, movieDetailsMapper.toMovieDetailsViewState(MoviesMock.getMovieDetails(movieId)))
 
     fun toggleFavorite(movieId: Int) {
         viewModelScope.launch {

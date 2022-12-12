@@ -11,14 +11,10 @@ object FavoritesDBMock {
         if (favoriteIds.value.contains(movieId)) {
             return
         }
-        val temporarySet = favoriteIds.value.toMutableSet()
-        temporarySet.add(movieId)
-        _favoriteIds.value = temporarySet.toSet()
+        _favoriteIds.update { it + movieId }
     }
 
     fun delete(movieId: Int) {
-        val temporarySet = favoriteIds.value.toMutableSet()
-        temporarySet.remove(movieId)
-        _favoriteIds.value = temporarySet.toSet()
+        _favoriteIds.update { it - movieId }
     }
 }

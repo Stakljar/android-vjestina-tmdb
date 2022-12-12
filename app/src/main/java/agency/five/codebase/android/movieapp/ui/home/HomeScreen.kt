@@ -1,9 +1,7 @@
 package agency.five.codebase.android.movieapp.ui.home
 
 import agency.five.codebase.android.movieapp.R
-import agency.five.codebase.android.movieapp.data.repository.FakeMovieRepository
 import agency.five.codebase.android.movieapp.ui.component.MoviesWithinCategory
-import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,9 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import kotlinx.coroutines.Dispatchers
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun HomeRoute(
@@ -95,21 +91,10 @@ fun HomeScreen(
     }
 }
 
-class HomeViewModelProvider : PreviewParameterProvider<HomeViewModel> {
-    override val values: Sequence<HomeViewModel>
-        get() = sequenceOf(
-            HomeViewModel(
-                movieRepository = FakeMovieRepository(Dispatchers.Default),
-                homeScreenMapper = HomeScreenMapperImpl()
-            )
-        )
-}
-
 @Preview
 @Composable
-private fun MovieDetailsScreenPreview(
-    @PreviewParameter(HomeViewModelProvider::class) viewModel: HomeViewModel
-) {
+private fun MovieDetailsScreenPreview() {
+    val viewModel: HomeViewModel by getViewModel()
     val popularCategoryViewState by viewModel.popularMoviesViewState.collectAsState()
     val nowPlayingCategoryViewState by viewModel.nowPlayingMoviesViewState.collectAsState()
     val upcomingCategoryViewState by viewModel.upcomingMoviesViewState.collectAsState()
