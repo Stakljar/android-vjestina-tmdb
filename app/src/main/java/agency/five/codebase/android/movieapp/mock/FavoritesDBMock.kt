@@ -8,9 +8,6 @@ object FavoritesDBMock {
     val favoriteIds: StateFlow<Set<Int>> = _favoriteIds
 
     fun insert(movieId: Int) {
-        if (favoriteIds.value.contains(movieId)) {
-            return
-        }
         _favoriteIds.update { it + movieId }
     }
 
