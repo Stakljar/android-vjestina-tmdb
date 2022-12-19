@@ -52,7 +52,10 @@ fun MoviesWithinCategory(
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.large_spacing)),
         ) {
-            items(items = categoryViewState.movies) { movie ->
+            items(
+                items = categoryViewState.movies,
+                key = { movie -> movie.id }
+            ) { movie ->
                 MovieCard(
                     movieCardViewState = movie.movieCardViewState,
                     onClick = { onNavigateToMovieDetails(movie.id) },

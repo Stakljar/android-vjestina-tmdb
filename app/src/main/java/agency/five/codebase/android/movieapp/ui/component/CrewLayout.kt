@@ -25,7 +25,10 @@ fun CrewLayout(crew: List<CrewmanViewState>, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.very_large_spacing)),
         modifier = modifier
     ) {
-        items(items = crew) { crewman ->
+        items(
+            items = crew,
+            key = { crew -> crew.hashCode() }
+        ) { crewman ->
             CrewItem(crewItemViewState = crewman.crewItemViewState)
         }
     }

@@ -52,7 +52,10 @@ fun FavoritesScreen(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.medium_spacing)),
         modifier = modifier
     ) {
-        item(span = { GridItemSpan(maxLineSpan) }) {
+        item(
+            span = { GridItemSpan(maxLineSpan) },
+            key = "Favorites Heading"
+        ) {
             Heading(
                 stringResource(id = R.string.favorites),
                 Modifier.padding(
