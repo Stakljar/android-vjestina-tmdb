@@ -27,7 +27,10 @@ fun CastLayout(cast: List<ActorViewState>, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.large_spacing)),
         modifier = modifier
     ) {
-        items(items = cast) { actor ->
+        items(
+            items = cast,
+            key = { cast -> cast.id }
+        ) { actor ->
             ActorCard(
                 actorCardViewState = actor.actorCardViewState,
                 Modifier

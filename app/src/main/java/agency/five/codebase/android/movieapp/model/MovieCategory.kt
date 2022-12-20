@@ -5,11 +5,11 @@ import androidx.annotation.StringRes
 
 enum class MovieCategory(@StringRes val textRes: Int) {
     POPULAR_STREAMING(R.string.streaming),
-    POPULAR_ONTV(R.string.on_tv),
-    POPULAR_FORRENT(R.string.for_rent),
-    POPULAR_INTHREATRES(R.string.in_theatres),
-    NOWPLAYING_MOVIES(R.string.movies),
-    NOWPLAYING_TV(R.string.tv),
+    POPULAR_ON_TV(R.string.on_tv),
+    POPULAR_FOR_RENT(R.string.for_rent),
+    POPULAR_IN_THEATRES(R.string.in_theatres),
+    NOW_PLAYING_MOVIES(R.string.movies),
+    NOW_PLAYING_TV(R.string.tv),
     UPCOMING_TODAY(R.string.today),
-    UPCOMING_THISWEEK(R.string.this_week)
+    UPCOMING_THIS_WEEK(R.string.this_week)
 }

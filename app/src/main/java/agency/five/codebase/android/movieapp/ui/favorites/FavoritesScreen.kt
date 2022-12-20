@@ -1,43 +1,40 @@
 package agency.five.codebase.android.movieapp.ui.favorites
 
 import agency.five.codebase.android.movieapp.R
-import agency.five.codebase.android.movieapp.mock.MoviesMock
 import agency.five.codebase.android.movieapp.ui.component.Heading
 import agency.five.codebase.android.movieapp.ui.component.MovieCard
-import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapper
-import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
-private val favoritesMapper: FavoritesMapper = FavoritesMapperImpl()
-
-val favoritesViewState = favoritesMapper.toFavoritesViewState(MoviesMock.getMoviesList())
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun FavoritesRoute(
+    viewModel: FavoritesViewModel,
     onNavigateToMovieDetails: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var _favoritesViewState by remember { mutableStateOf(favoritesViewState) }
+    val favoritesViewState: FavoritesViewState by viewModel.favoritesViewState.collectAsState()
 
     FavoritesScreen(
-        favoritesViewState = _favoritesViewState,
+        favoritesViewState = favoritesViewState,
         onNavigateToMovieDetails = onNavigateToMovieDetails,
-        onFavoriteButtonClick = { favoritesMovieId ->
-            _favoritesViewState = onFavoriteButtonClick(_favoritesViewState, favoritesMovieId)
-        },
+        onFavoriteButtonClick = viewModel::toggleFavorite,
         modifier = modifier
     )
 }
@@ -55,7 +52,10 @@ fun FavoritesScreen(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.medium_spacing)),
         modifier = modifier
     ) {
-        item(span = { GridItemSpan(maxLineSpan) }) {
+        item(
+            span = { GridItemSpan(maxLineSpan) },
+            key = "Favorites Heading"
+        ) {
             Heading(
                 stringResource(id = R.string.favorites),
                 Modifier.padding(
@@ -83,16 +83,14 @@ fun FavoritesScreen(
 @Preview
 @Composable
 private fun FavoritesScreenPreview() {
-    var _favoritesViewState by remember { mutableStateOf(favoritesViewState) }
+    val viewModel: FavoritesViewModel by getViewModel()
+    val favoritesViewState: FavoritesViewState by viewModel.favoritesViewState.collectAsState()
+
     MovieAppTheme {
         FavoritesScreen(
-            favoritesViewState = _favoritesViewState,
+            favoritesViewState = favoritesViewState,
             onNavigateToMovieDetails = { },
-            onFavoriteButtonClick = { favoritesMovieId ->
-                _favoritesViewState =
-                    onFavoriteButtonClick(_favoritesViewState, favoritesMovieId)
-            },
-            modifier = Modifier.padding(10.dp)
+            onFavoriteButtonClick = viewModel::toggleFavorite,
         )
     }
 }

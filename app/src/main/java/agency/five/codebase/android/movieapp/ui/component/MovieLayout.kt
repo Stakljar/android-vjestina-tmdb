@@ -30,7 +30,7 @@ fun MovieLayout(
             model = movieDetailsViewState.imageUrl,
             contentDescription = null,
             modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.FillBounds
         )
         Column(
             modifier = Modifier
