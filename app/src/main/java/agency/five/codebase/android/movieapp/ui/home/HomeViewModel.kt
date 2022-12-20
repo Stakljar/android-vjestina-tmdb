@@ -15,7 +15,7 @@ class HomeViewModel(
     private val _selectedPopularCategoryId: MutableStateFlow<MovieCategory> = MutableStateFlow(MovieCategory.POPULAR_STREAMING)
 
     val popularMoviesViewState: StateFlow<HomeMovieCategoryViewState> = _selectedPopularCategoryId.flatMapLatest {
-        movieRepository.popularMovies(_selectedPopularCategoryId.value)
+        movieRepository.movies(_selectedPopularCategoryId.value)
             .map { movies ->
                 homeScreenMapper.toHomeMovieCategoryViewState(
                     listOf(
@@ -32,7 +32,7 @@ class HomeViewModel(
     private val _selectedNowPlayingCategoryId: MutableStateFlow<MovieCategory> = MutableStateFlow(MovieCategory.NOW_PLAYING_MOVIES)
 
     val nowPlayingMoviesViewState: StateFlow<HomeMovieCategoryViewState> = _selectedNowPlayingCategoryId.flatMapLatest {
-        movieRepository.nowPlayingMovies(_selectedNowPlayingCategoryId.value)
+        movieRepository.movies(_selectedNowPlayingCategoryId.value)
             .map { movies ->
                 homeScreenMapper.toHomeMovieCategoryViewState(
                     listOf(
@@ -47,7 +47,7 @@ class HomeViewModel(
     private val _selectedUpcomingCategoryId: MutableStateFlow<MovieCategory> = MutableStateFlow(MovieCategory.UPCOMING_TODAY)
 
     val upcomingMoviesViewState: StateFlow<HomeMovieCategoryViewState> = _selectedUpcomingCategoryId.flatMapLatest{
-        movieRepository.upcomingMovies(_selectedUpcomingCategoryId.value)
+        movieRepository.movies(_selectedUpcomingCategoryId.value)
             .map { movies ->
                 homeScreenMapper.toHomeMovieCategoryViewState(
                     listOf(
