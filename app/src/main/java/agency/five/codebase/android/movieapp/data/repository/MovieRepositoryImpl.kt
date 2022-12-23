@@ -6,7 +6,6 @@ import agency.five.codebase.android.movieapp.data.network.MovieService
 import agency.five.codebase.android.movieapp.model.Movie
 import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.model.MovieDetails
-import android.database.sqlite.SQLiteConstraintException
 import android.os.DeadObjectException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
