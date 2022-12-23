@@ -1,5 +1,8 @@
 package agency.five.codebase.android.movieapp.data.network.model
 
+import agency.five.codebase.android.movieapp.data.network.BASE_IMAGE_URL
+import agency.five.codebase.android.movieapp.model.Actor
+import agency.five.codebase.android.movieapp.model.Crewman
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -21,7 +24,16 @@ data class ApiCast(
     val character: String,
     @SerialName("profile_path")
     val profilePath: String?,
-)
+) {
+    fun toActor(): Actor {
+        return Actor(
+            id = id,
+            name = name,
+            character = character,
+            imageUrl = "$BASE_IMAGE_URL${profilePath}"
+        )
+    }
+}
 
 @Serializable
 data class ApiCrew(
@@ -31,5 +43,13 @@ data class ApiCrew(
     val name: String,
     @SerialName("job")
     val job: String
-)
+) {
+    fun toCrewman(): Crewman {
+        return Crewman(
+            id = id,
+            name = name,
+            job = job,
+        )
+    }
+}
 

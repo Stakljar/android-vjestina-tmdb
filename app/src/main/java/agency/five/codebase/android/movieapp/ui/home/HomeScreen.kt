@@ -139,34 +139,8 @@ private fun MovieDetailsScreenPreview() {
             nowPlayingCategoryViewState = _nowPlayingCategoryViewState,
             upcomingCategoryViewState = _upcomingCategoryViewState,
             onNavigateToMovieDetails = { },
-            onCategoryClick = { categoryId ->
-                when (categoryId) {
-
-                    in 0..3 -> {
-                        _popularCategoryViewState =
-                            changeCategory(_popularCategoryViewState, categoryId)
-                    }
-                    in 4..5 -> {
-                        _nowPlayingCategoryViewState =
-                            changeCategory(_nowPlayingCategoryViewState, categoryId)
-                    }
-                    else -> {
-                        _upcomingCategoryViewState =
-                            changeCategory(_upcomingCategoryViewState, categoryId)
-                    }
-                }
-            },
-            onFavoriteClick = { movieId ->
-                if(_popularCategoryViewState.movies.any { it.id == movieId })
-                    _popularCategoryViewState =
-                        changeMovieFavoriteStatus(_popularCategoryViewState, movieId)
-                if(_nowPlayingCategoryViewState.movies.any { it.id == movieId })
-                    _nowPlayingCategoryViewState =
-                        changeMovieFavoriteStatus(_nowPlayingCategoryViewState, movieId)
-                if(_upcomingCategoryViewState.movies.any { it.id == movieId })
-                    _upcomingCategoryViewState =
-                        changeMovieFavoriteStatus(_upcomingCategoryViewState, movieId)
-            }
+            onCategoryClick = { },
+            onFavoriteClick = { }
         )
     }
 }

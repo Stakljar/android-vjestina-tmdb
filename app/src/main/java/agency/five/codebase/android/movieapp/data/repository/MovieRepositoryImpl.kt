@@ -8,7 +8,9 @@ import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.model.MovieDetails
 import android.database.sqlite.SQLiteConstraintException
 import android.os.DeadObjectException
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import java.net.UnknownHostException
 
@@ -101,24 +103,22 @@ class MovieRepositoryImpl(
 
     override suspend fun addMovieToFavorites(movieId: Int) {
         val movie = findMovie(movieId)
-        GlobalScope.launch(Dispatchers.IO) {
-            movieDao.insertMovie(
-                DbFavoriteMovie(
-                    id = movie.id,
-                    posterUrl = movie.imageUrl
-                )
+        movieDao.insertMovie(
+            DbFavoriteMovie(
+                id = movie.id,
+                posterUrl = movie.imageUrl
             )
-        }
+        )
     }
 
     private suspend fun findMovie(movieId: Int): Movie {
-        return movieDetails(movieId).first().movie
+        return moviesByCategory.values.asFlow().flattenMerge()
+            .filter { it -> it.firstOrNull { it.id == movieId } != null }
+            .first().first { it.id == movieId }
     }
 
     override suspend fun removeMovieFromFavorites(movieId: Int) {
-        GlobalScope.launch(Dispatchers.IO) {
-            movieDao.deleteMovie(movieId)
-        }
+        movieDao.deleteMovie(movieId)
     }
 
     override suspend fun toggleFavorite(movieId: Int) {

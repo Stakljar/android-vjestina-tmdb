@@ -2,6 +2,7 @@ package agency.five.codebase.android.movieapp.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
@@ -13,6 +14,6 @@ interface FavoriteMovieDao {
     @Query("DELETE FROM DbFavoriteMovie WHERE id = :movieId")
     fun deleteMovie(movieId: Int)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovie(dbFavoriteMovie: DbFavoriteMovie)
 }

@@ -1,13 +1,10 @@
 package agency.five.codebase.android.movieapp.data.network.model
 
 import agency.five.codebase.android.movieapp.data.network.BASE_IMAGE_URL
-import agency.five.codebase.android.movieapp.model.Actor
-import agency.five.codebase.android.movieapp.model.Crewman
 import agency.five.codebase.android.movieapp.model.Movie
 import agency.five.codebase.android.movieapp.model.MovieDetails
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.math.roundToInt
 
 @Serializable
 data class ApiMovieDetails(
@@ -43,19 +40,10 @@ data class ApiMovieDetails(
         language = originalLanguage,
         runtime = runtime,
         crew = crew.map {
-            Crewman(
-                id = it.id,
-                name = it.name,
-                job = it.job
-            )
+            it.toCrewman()
         },
         cast = cast.map {
-            Actor(
-                id = it.id,
-                name = it.name,
-                character = it.character,
-                imageUrl = "$BASE_IMAGE_URL${it.profilePath}"
-            )
+            it.toActor()
         }
     )
 }
