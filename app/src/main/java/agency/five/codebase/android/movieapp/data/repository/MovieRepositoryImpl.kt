@@ -129,8 +129,6 @@ class MovieRepositoryImpl(
             } else {
                 addMovieToFavorites(movieId)
             }
-        } catch (e: SQLiteConstraintException) {
-            e.printStackTrace()
         } catch (e: UnknownHostException) {
             e.printStackTrace()
         } catch (e: NoSuchElementException) {
