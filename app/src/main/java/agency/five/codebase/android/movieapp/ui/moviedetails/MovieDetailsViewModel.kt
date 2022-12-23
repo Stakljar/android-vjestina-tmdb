@@ -25,7 +25,7 @@ class MovieDetailsViewModel(
                 MovieDetailsViewState(
                     id = 0,
                     imageUrl = null,
-                    voteAverage = 9.5F,
+                    voteAverage = 0.0F,
                     title = "",
                     overview = "",
                     isFavorite = false,
