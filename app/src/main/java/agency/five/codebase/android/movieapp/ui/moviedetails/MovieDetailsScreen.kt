@@ -1,10 +1,12 @@
 package agency.five.codebase.android.movieapp.ui.moviedetails
 
 import agency.five.codebase.android.movieapp.R
+import agency.five.codebase.android.movieapp.mock.MoviesMock
 import agency.five.codebase.android.movieapp.ui.component.CastLayout
 import agency.five.codebase.android.movieapp.ui.component.CrewLayout
 import agency.five.codebase.android.movieapp.ui.component.Heading
 import agency.five.codebase.android.movieapp.ui.component.MovieLayout
+import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -13,15 +15,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun MovieDetailsRoute(
@@ -99,15 +98,21 @@ fun MovieDetailsScreen(
 @Preview
 @Composable
 private fun MovieDetailsScreenPreview() {
-    val viewModel: MovieDetailsViewModel by getViewModel{ parametersOf(1) }
-    val movieDetailsViewState: MovieDetailsViewState by viewModel.movieDetailsViewState.collectAsState()
-
+    var _movieDetailsViewState by remember {
+        mutableStateOf(
+            MovieDetailsMapperImpl().toMovieDetailsViewState(
+                MoviesMock.getMovieDetails()
+            )
+        )
+    }
     MovieAppTheme {
         MovieDetailsScreen(
-            movieDetailsViewState = movieDetailsViewState,
+            movieDetailsViewState = _movieDetailsViewState,
             onFavoriteButtonClick = {
-                viewModel.toggleFavorite(movieDetailsViewState.id)
-            }
+                _movieDetailsViewState =
+                    _movieDetailsViewState.copy(isFavorite = !_movieDetailsViewState.isFavorite)
+            },
+            modifier = Modifier.padding(10.dp)
         )
     }
 }

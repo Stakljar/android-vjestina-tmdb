@@ -4,6 +4,7 @@ import agency.five.codebase.android.movieapp.data.repository.MovieRepository
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -13,11 +14,11 @@ class FavoritesViewModel(
 ) : ViewModel() {
     val favoritesViewState: StateFlow<FavoritesViewState> = movieRepository.favoriteMovies()
         .map { movies -> favoritesMapper.toFavoritesViewState(movies) }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, FavoritesViewState(emptyList()))
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000L), FavoritesViewState(emptyList()))
 
-    fun toggleFavorite(movieId: Int) {
-        viewModelScope.launch {
-            movieRepository.toggleFavorite(movieId)
+    fun removeFavorite(movieId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            movieRepository.removeMovieFromFavorites(movieId)
         }
     }
 }
