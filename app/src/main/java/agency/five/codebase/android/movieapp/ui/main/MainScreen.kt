@@ -140,7 +140,7 @@ private fun TopBar(
             .height(dimensionResource(id = R.dimen.top_bar_height)),
         contentAlignment = Alignment.CenterStart
     ) {
-        navigationIcon?.invoke()
+        navigationIcon.invoke()
         Image(
             painter = painterResource(id = R.drawable.ic_logo),
             contentDescription = null,
