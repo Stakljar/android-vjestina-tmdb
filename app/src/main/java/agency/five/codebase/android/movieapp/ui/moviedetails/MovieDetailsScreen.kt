@@ -108,7 +108,7 @@ private fun MovieDetailsScreenPreview() {
         )
     }
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             MovieDetailsScreen(
                 movieDetailsViewState = _movieDetailsViewState,
                 onFavoriteButtonClick = {

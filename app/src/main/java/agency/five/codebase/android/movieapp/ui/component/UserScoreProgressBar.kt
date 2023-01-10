@@ -59,7 +59,7 @@ fun UserScoreProgressBar(
 @Composable
 private fun UserScoreProgressBarPreview() {
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             UserScoreProgressBar(
                 progress = 0.75F,
                 Modifier

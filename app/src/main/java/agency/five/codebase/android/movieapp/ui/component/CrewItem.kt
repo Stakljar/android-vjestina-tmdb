@@ -44,7 +44,7 @@ fun CrewItem(
 @Composable
 private fun CrewItemPreview() {
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             CrewItem(
                 crewItemViewState = CrewItemViewState(
                     name = "John Favreau",

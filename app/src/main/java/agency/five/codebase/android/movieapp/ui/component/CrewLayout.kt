@@ -48,7 +48,7 @@ fun CrewLayoutPreview() {
         )
     }
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             CrewLayout(
                 crew = movieDetailsViewState.crew, modifier = Modifier
                     .height(120.dp)

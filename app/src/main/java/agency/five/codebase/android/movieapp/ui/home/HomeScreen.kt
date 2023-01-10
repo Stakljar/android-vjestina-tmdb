@@ -137,7 +137,7 @@ private fun MovieDetailsScreenPreview() {
     }
 
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             HomeScreen(
                 popularCategoryViewState = _popularCategoryViewState,
                 nowPlayingCategoryViewState = _nowPlayingCategoryViewState,

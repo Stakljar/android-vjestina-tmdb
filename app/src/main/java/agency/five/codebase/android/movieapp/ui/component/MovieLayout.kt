@@ -79,7 +79,7 @@ fun MovieLayoutPreview() {
         )
     }
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             MovieLayout(
                 movieDetailsViewState = movieDetailsViewState,
                 onFavoriteButtonClick = {

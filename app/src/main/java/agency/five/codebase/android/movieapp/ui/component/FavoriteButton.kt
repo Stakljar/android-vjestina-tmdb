@@ -44,7 +44,7 @@ fun FavoriteButton(
 private fun FavoriteButtonPreview() {
     var isFavorite by remember { mutableStateOf(false) }
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             FavoriteButton(isFavorite = isFavorite, onClick = { isFavorite = !isFavorite })
         }
     }

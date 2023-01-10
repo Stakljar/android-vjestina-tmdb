@@ -70,7 +70,7 @@ private fun MovieCategoryLabelPreview() {
         )
     }
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             MovieCategoryLabel(
                 movieCategoryLabelViewState = movieCategoryLabelViewState,
                 onSelected = {

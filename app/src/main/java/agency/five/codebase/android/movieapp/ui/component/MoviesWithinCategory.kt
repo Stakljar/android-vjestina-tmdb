@@ -94,7 +94,7 @@ fun MovieWithinCategoryPreview() {
         )
     }
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             MoviesWithinCategory(
                 headingName = "What's popular",
                 categoryViewState = _popularCategoryViewState,

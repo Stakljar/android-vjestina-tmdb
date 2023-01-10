@@ -55,7 +55,7 @@ fun CastLayoutPreview() {
         )
     }
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             CastLayout(
                 cast = movieDetailsViewState.cast,
                 modifier = Modifier.padding(start = 15.dp, bottom = 15.dp)

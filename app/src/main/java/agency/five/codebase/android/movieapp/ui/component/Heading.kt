@@ -24,7 +24,7 @@ fun Heading(text: String, modifier: Modifier = Modifier){
 @Composable
 fun HeadingPreview(){
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             Heading(text = "What's popular")
         }
     }

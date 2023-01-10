@@ -71,7 +71,7 @@ fun ActorCard(
 @Composable
 private fun ActorCardPreview() {
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             ActorCard(
                 actorCardViewState = ActorCardViewState(
                     imageUrl = "https://www.themoviedb.org/t/p/w200/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg",

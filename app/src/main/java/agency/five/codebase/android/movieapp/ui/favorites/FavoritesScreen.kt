@@ -93,7 +93,7 @@ private fun FavoritesScreenPreview() {
         )
     }
     MovieAppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(color = MaterialTheme.colors.background) {
             FavoritesScreen(
                 favoritesViewState = _favoritesViewState,
                 onNavigateToMovieDetails = { },
