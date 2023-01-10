@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -70,15 +71,17 @@ fun ActorCard(
 @Composable
 private fun ActorCardPreview() {
     MovieAppTheme {
-        ActorCard(
-            actorCardViewState = ActorCardViewState(
-                imageUrl = "https://www.themoviedb.org/t/p/w200/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg",
-                name = "Robert Downey Jr.",
-                character = "Tony Stark/Iron Man"
-            ),
-            Modifier
-                .width(130.dp)
-                .shadow(elevation = 10.dp, shape = RoundedCornerShape(percent = 10))
-        )
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            ActorCard(
+                actorCardViewState = ActorCardViewState(
+                    imageUrl = "https://www.themoviedb.org/t/p/w200/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg",
+                    name = "Robert Downey Jr.",
+                    character = "Tony Stark/Iron Man"
+                ),
+                Modifier
+                    .width(130.dp)
+                    .shadow(elevation = 10.dp, shape = RoundedCornerShape(percent = 10))
+            )
+        }
     }
 }

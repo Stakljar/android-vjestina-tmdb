@@ -4,12 +4,10 @@ import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -72,11 +70,13 @@ private fun MovieCategoryLabelPreview() {
         )
     }
     MovieAppTheme {
-        MovieCategoryLabel(
-            movieCategoryLabelViewState = movieCategoryLabelViewState,
-            onSelected = {
-                movieCategoryLabelViewState = movieCategoryLabelViewState.copy(isSelected = true)
-            }
-        )
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            MovieCategoryLabel(
+                movieCategoryLabelViewState = movieCategoryLabelViewState,
+                onSelected = {
+                    movieCategoryLabelViewState = movieCategoryLabelViewState.copy(isSelected = true)
+                }
+            )
+        }
     }
 }

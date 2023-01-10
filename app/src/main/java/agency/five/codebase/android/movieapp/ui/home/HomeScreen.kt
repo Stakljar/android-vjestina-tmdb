@@ -6,8 +6,11 @@ import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.ui.component.MoviesWithinCategory
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -134,13 +137,15 @@ private fun MovieDetailsScreenPreview() {
     }
 
     MovieAppTheme {
-        HomeScreen(
-            popularCategoryViewState = _popularCategoryViewState,
-            nowPlayingCategoryViewState = _nowPlayingCategoryViewState,
-            upcomingCategoryViewState = _upcomingCategoryViewState,
-            onNavigateToMovieDetails = { },
-            onCategoryClick = { },
-            onFavoriteClick = { }
-        )
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            HomeScreen(
+                popularCategoryViewState = _popularCategoryViewState,
+                nowPlayingCategoryViewState = _nowPlayingCategoryViewState,
+                upcomingCategoryViewState = _upcomingCategoryViewState,
+                onNavigateToMovieDetails = { },
+                onCategoryClick = { },
+                onFavoriteClick = { }
+            )
+        }
     }
 }

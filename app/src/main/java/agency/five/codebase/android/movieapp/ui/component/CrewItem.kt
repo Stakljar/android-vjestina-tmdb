@@ -3,8 +3,10 @@ package agency.five.codebase.android.movieapp.ui.component
 import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -42,11 +44,13 @@ fun CrewItem(
 @Composable
 private fun CrewItemPreview() {
     MovieAppTheme {
-        CrewItem(
-            crewItemViewState = CrewItemViewState(
-                name = "John Favreau",
-                job = "Director"
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            CrewItem(
+                crewItemViewState = CrewItemViewState(
+                    name = "John Favreau",
+                    job = "Director"
+                )
             )
-        )
+        }
     }
 }

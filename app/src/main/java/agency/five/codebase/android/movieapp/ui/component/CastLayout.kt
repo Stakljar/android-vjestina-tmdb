@@ -6,11 +6,14 @@ import agency.five.codebase.android.movieapp.ui.moviedetails.ActorViewState
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -52,9 +55,11 @@ fun CastLayoutPreview() {
         )
     }
     MovieAppTheme {
-        CastLayout(
-            cast = movieDetailsViewState.cast,
-            modifier = Modifier.padding(start = 15.dp, bottom = 15.dp)
-        )
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            CastLayout(
+                cast = movieDetailsViewState.cast,
+                modifier = Modifier.padding(start = 15.dp, bottom = 15.dp)
+            )
+        }
     }
 }

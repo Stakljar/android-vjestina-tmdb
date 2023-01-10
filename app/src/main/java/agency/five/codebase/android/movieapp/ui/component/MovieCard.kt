@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,16 +71,18 @@ private fun MovieCardPreview() {
         )
     }
     MovieAppTheme {
-        MovieCard(
-            movieCardViewState = movieCardViewState,
-            onClick = { },
-            onFavoriteClick = {
-                movieCardViewState =
-                    movieCardViewState.copy(isFavorite = !movieCardViewState.isFavorite)
-            },
-            Modifier
-                .size(130.dp, 200.dp)
-                .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
-        )
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            MovieCard(
+                movieCardViewState = movieCardViewState,
+                onClick = { },
+                onFavoriteClick = {
+                    movieCardViewState =
+                        movieCardViewState.copy(isFavorite = !movieCardViewState.isFavorite)
+                },
+                Modifier
+                    .size(130.dp, 200.dp)
+                    .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
+            )
+        }
     }
 }

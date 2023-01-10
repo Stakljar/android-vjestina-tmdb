@@ -7,6 +7,7 @@ import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetails
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -78,13 +79,15 @@ fun MovieLayoutPreview() {
         )
     }
     MovieAppTheme {
-        MovieLayout(
-            movieDetailsViewState = movieDetailsViewState,
-            onFavoriteButtonClick = {
-                movieDetailsViewState =
-                    movieDetailsViewState.copy(isFavorite = !movieDetailsViewState.isFavorite)
-            },
-            modifier = Modifier.height(480.dp)
-        )
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            MovieLayout(
+                movieDetailsViewState = movieDetailsViewState,
+                onFavoriteButtonClick = {
+                    movieDetailsViewState =
+                        movieDetailsViewState.copy(isFavorite = !movieDetailsViewState.isFavorite)
+                },
+                modifier = Modifier.height(480.dp)
+            )
+        }
     }
 }

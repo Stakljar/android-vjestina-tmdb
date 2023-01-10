@@ -9,11 +9,13 @@ import agency.five.codebase.android.movieapp.ui.component.MovieLayout
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -106,13 +108,15 @@ private fun MovieDetailsScreenPreview() {
         )
     }
     MovieAppTheme {
-        MovieDetailsScreen(
-            movieDetailsViewState = _movieDetailsViewState,
-            onFavoriteButtonClick = {
-                _movieDetailsViewState =
-                    _movieDetailsViewState.copy(isFavorite = !_movieDetailsViewState.isFavorite)
-            },
-            modifier = Modifier.padding(10.dp)
-        )
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            MovieDetailsScreen(
+                movieDetailsViewState = _movieDetailsViewState,
+                onFavoriteButtonClick = {
+                    _movieDetailsViewState =
+                        _movieDetailsViewState.copy(isFavorite = !_movieDetailsViewState.isFavorite)
+                },
+                modifier = Modifier.padding(10.dp)
+            )
+        }
     }
 }

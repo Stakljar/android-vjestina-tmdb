@@ -7,6 +7,7 @@ import agency.five.codebase.android.movieapp.ui.component.MovieCard
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -14,6 +15,8 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -90,14 +93,16 @@ private fun FavoritesScreenPreview() {
         )
     }
     MovieAppTheme {
-        FavoritesScreen(
-            favoritesViewState = _favoritesViewState,
-            onNavigateToMovieDetails = { },
-            onFavoriteButtonClick = { favoritesMovieId ->
-                _favoritesViewState =
-                    onFavoriteButtonClick(_favoritesViewState, favoritesMovieId)
-            },
-            modifier = Modifier.padding(10.dp)
-        )
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            FavoritesScreen(
+                favoritesViewState = _favoritesViewState,
+                onNavigateToMovieDetails = { },
+                onFavoriteButtonClick = { favoritesMovieId ->
+                    _favoritesViewState =
+                        onFavoriteButtonClick(_favoritesViewState, favoritesMovieId)
+                },
+                modifier = Modifier.padding(10.dp)
+            )
+        }
     }
 }

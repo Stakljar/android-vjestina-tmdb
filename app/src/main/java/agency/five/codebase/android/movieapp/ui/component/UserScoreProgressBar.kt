@@ -3,6 +3,8 @@ package agency.five.codebase.android.movieapp.ui.component
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -57,11 +59,13 @@ fun UserScoreProgressBar(
 @Composable
 private fun UserScoreProgressBarPreview() {
     MovieAppTheme {
-        UserScoreProgressBar(
-            progress = 0.75F,
-            Modifier
-                .size(40.dp)
-                .padding(2.dp)
-        )
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            UserScoreProgressBar(
+                progress = 0.75F,
+                Modifier
+                    .size(40.dp)
+                    .padding(2.dp)
+            )
+        }
     }
 }

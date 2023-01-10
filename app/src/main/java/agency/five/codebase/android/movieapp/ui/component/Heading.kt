@@ -2,7 +2,9 @@ package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.ui.theme.Blue
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,6 +24,8 @@ fun Heading(text: String, modifier: Modifier = Modifier){
 @Composable
 fun HeadingPreview(){
     MovieAppTheme {
-        Heading(text = "What's popular")
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            Heading(text = "What's popular")
+        }
     }
 }
