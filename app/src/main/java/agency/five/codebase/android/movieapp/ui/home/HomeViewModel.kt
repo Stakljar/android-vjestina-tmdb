@@ -6,7 +6,13 @@ import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -15,6 +21,7 @@ class HomeViewModel(
 ) : ViewModel() {
     private val _selectedPopularCategoryId: MutableStateFlow<MovieCategory> = MutableStateFlow(MovieCategory.POPULAR_STREAMING)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val popularMoviesViewState: StateFlow<HomeMovieCategoryViewState> = _selectedPopularCategoryId.flatMapLatest {
         movieRepository.movies(_selectedPopularCategoryId.value)
             .map { movies ->
@@ -32,6 +39,7 @@ class HomeViewModel(
 
     private val _selectedNowPlayingCategoryId: MutableStateFlow<MovieCategory> = MutableStateFlow(MovieCategory.NOW_PLAYING_MOVIES)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val nowPlayingMoviesViewState: StateFlow<HomeMovieCategoryViewState> = _selectedNowPlayingCategoryId.flatMapLatest {
         movieRepository.movies(_selectedNowPlayingCategoryId.value)
             .map { movies ->
@@ -47,6 +55,7 @@ class HomeViewModel(
 
     private val _selectedUpcomingCategoryId: MutableStateFlow<MovieCategory> = MutableStateFlow(MovieCategory.UPCOMING_TODAY)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val upcomingMoviesViewState: StateFlow<HomeMovieCategoryViewState> = _selectedUpcomingCategoryId.flatMapLatest{
         movieRepository.movies(_selectedUpcomingCategoryId.value)
             .map { movies ->

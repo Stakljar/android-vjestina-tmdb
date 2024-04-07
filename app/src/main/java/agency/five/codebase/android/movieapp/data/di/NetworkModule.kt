@@ -2,16 +2,12 @@ package agency.five.codebase.android.movieapp.data.di
 
 import agency.five.codebase.android.movieapp.data.network.MovieService
 import agency.five.codebase.android.movieapp.data.network.MovieServiceImpl
-import io.ktor.client.*
-import io.ktor.client.engine.*
-import io.ktor.client.engine.android.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import org.koin.core.context.GlobalContext.get
 import org.koin.dsl.module
-import java.net.InetSocketAddress
-import java.net.Proxy
 
 val networkModule = module {
     single<MovieService> { MovieServiceImpl(client = get()) }

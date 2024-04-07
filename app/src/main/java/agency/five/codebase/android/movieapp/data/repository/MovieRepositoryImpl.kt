@@ -10,7 +10,19 @@ import android.os.DeadObjectException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flattenMerge
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.shareIn
 import java.net.UnknownHostException
 
 class MovieRepositoryImpl(
@@ -19,6 +31,7 @@ class MovieRepositoryImpl(
     private val bgDispatcher: CoroutineDispatcher
 ) : MovieRepository {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val moviesByCategory: Map<MovieCategory, Flow<List<Movie>>> = MovieCategory.values()
         .associateWith { movieCategory ->
             flow {
@@ -85,6 +98,7 @@ class MovieRepositoryImpl(
     override fun movies(movieCategory: MovieCategory): Flow<List<Movie>> =
         moviesByCategory[movieCategory]!!
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun movieDetails(movieId: Int): Flow<MovieDetails> = flow {
         emit(movieService.fetchMovieDetails(movieId) to movieService.fetchMovieCredits(movieId))
     }.flatMapLatest { (apiMovieDetails, apiMovieCredits) ->
@@ -110,6 +124,7 @@ class MovieRepositoryImpl(
         )
     }
 
+    @OptIn(FlowPreview::class)
     private suspend fun findMovie(movieId: Int): Movie {
         return moviesByCategory.values.asFlow().flattenMerge()
             .filter { it -> it.firstOrNull { it.id == movieId } != null }

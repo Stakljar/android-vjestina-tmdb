@@ -3,11 +3,9 @@ package agency.five.codebase.android.movieapp.data.network
 import agency.five.codebase.android.movieapp.data.network.model.ApiMovieDetails
 import agency.five.codebase.android.movieapp.data.network.model.MovieCreditsResponse
 import agency.five.codebase.android.movieapp.data.network.model.MovieResponse
-import agency.five.codebase.android.movieapp.model.Movie
-import android.util.Log
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
 
 const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
 private const val BASE_URL = "https://api.themoviedb.org/3"

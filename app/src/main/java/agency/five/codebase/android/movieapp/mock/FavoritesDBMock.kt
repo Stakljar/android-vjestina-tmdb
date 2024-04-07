@@ -1,6 +1,9 @@
 package agency.five.codebase.android.movieapp.mock
 
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+
 
 object FavoritesDBMock {
     private val _favoriteIds = MutableStateFlow(MoviesMock.getMoviesList().filter { movie -> movie.isFavorite }
